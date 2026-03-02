@@ -1,0 +1,10 @@
+{
+  "name": "literature-helper-polsci",
+  "version": "1.0.0",
+  "description": "Citation-verified literature surveys for political science and computational social science",
+  "author": {
+    "name": "Jie Lian"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/LIANJie-Jason/literature-helper-polsci"
+}

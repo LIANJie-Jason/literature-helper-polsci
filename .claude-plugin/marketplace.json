@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "literature-helper-polsci",
+  "version": "1.0.0",
+  "description": "Citation-verified literature surveys for political science and computational social science",
+  "owner": {
+    "name": "Jie Lian",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "literature-helper-polsci",
+      "description": "Produces curated, citation-verified literature surveys for political science and computational social science research projects. Covers substantive, empirical, and methodological scholarship.",
+      "version": "1.0.0",
+      "source": "./",
+      "category": "research"
+    }
+  ]
+}

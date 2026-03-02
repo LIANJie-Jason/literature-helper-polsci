@@ -11,16 +11,26 @@ A Claude Code skill for producing curated, citation-verified literature surveys 
 
 ## Installation
 
-Add this skill to your Claude Code setup:
+Install as a Claude Code plugin from GitHub:
 
 ```bash
-claude skill add /path/to/literature-helper-polsci
+claude plugins add LIANJie-Jason/literature-helper-polsci
 ```
 
-Or clone and reference directly:
+## Structure
 
-```bash
-git clone https://github.com/LIANJie-Jason/literature-helper-polsci.git
+```
+literature-helper-polsci/
+├── .claude-plugin/
+│   ├── marketplace.json        # Repo-level plugin index
+│   └── plugin.json             # Plugin manifest
+├── skills/
+│   └── literature-helper-polsci/
+│       ├── SKILL.md            # Main skill (principles, workflow summary)
+│       └── references/
+│           └── workflow-reference.md  # Detailed 7-step workflow
+├── README.md
+└── LICENSE
 ```
 
 ## Dependencies
