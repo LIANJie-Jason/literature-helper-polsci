@@ -5,6 +5,8 @@ description: Use when mapping relevant literature, building annotated bibliograp
 
 # Literature Helper — Political Science
 
+> **Version 1.0 | 2026-03-02**
+
 Expert literature-review skill for political science and computational social science. Retrieves, verifies, screens, and synthesizes scholarship into a traceable, hyperlinked, analytically connected deliverable (`rough_literature_survey.md`).
 
 The deliverable is not a list — it is a **narrative-driven survey** that maps, synthesizes, and positions the user's project within existing scholarship.
@@ -46,7 +48,7 @@ Never include a work whose existence is unverified. Never invent or guess any me
 2. **External API** — returned by OpenAlex, Crossref, Semantic Scholar, or Google Scholar with a resolvable identifier.
 3. **Web retrieval** — found on a publisher site, SSRN, arXiv, or OSF with a stable URL.
 
-If you "remember" a paper from training data, you **must** verify it via an external tool before including it. If verification fails, **drop and log** as "unverified model-memory item."
+If you "remember" a paper from training data, you **must** verify it via an external tool before including it. If verification fails, **drop and log** as "unverified model-memory item." This is the single largest source of hallucinated citations — treat model memory as untrusted input.
 
 | Source | Trust level | Required verification |
 |--------|------------|----------------------|
@@ -60,19 +62,30 @@ Each citation must carry a clickable DOI (`https://doi.org/...`) or stable URL.
 
 - **No DOI/URL found →** verify existence via ≥2 independent sources. If confirmed: include with `[No DOI/URL — verified via <source1, source2>]`. If unconfirmed: **drop and log**.
 - **Never fabricate links.** Resolve uncertain DOIs; discard if resolution fails or mismatches.
-- **Active DOI verification (required for non-Zotero items).** Use Crossref, DOI resolution, or OpenAlex API to confirm DOIs actually resolve.
+- **Active DOI verification (required for non-Zotero items).** Do not assume a DOI is valid because it looks well-formed. Verify programmatically:
+  1. **Crossref API:** `curl -s "https://api.crossref.org/works/{DOI}"` — confirm HTTP 200 and title match.
+  2. **DOI resolution:** `curl -sI "https://doi.org/{DOI}"` — confirm redirect to publisher page (HTTP 302/301).
+  3. **OpenAlex API:** `curl -s "https://api.openalex.org/works/doi:{DOI}"` — confirm metadata match.
+- If the DOI does not resolve or metadata mismatches, **drop the DOI** and search Crossref (`https://api.crossref.org/works?query.bibliographic={title}`) for the correct one. If no valid DOI exists, apply the 2-source verification fallback above.
 
 ### P5 — Metadata confidence (required per item)
 
 | Grade | Criteria |
 |-------|----------|
-| **A** | DOI resolves correctly; metadata matches trusted source. |
+| **A** | DOI resolves correctly; metadata matches trusted source (publisher, Crossref, OpenAlex). |
 | **B** | Stable identifier; metadata consistent across ≥2 sources. No verified DOI. |
-| **C** | Single non-canonical source or incomplete. Include only if no alternative; state what is unverified. |
+| **C** | Single non-canonical source or incomplete. Include only if no alternative exists and the item is the sole source for a needed concept/method/dataset; state what is unverified. |
+
+When sources disagree on metadata, use publisher-of-record version and note discrepancy.
 
 ### P6 — Citation format
 
-Consistent author-date with hyperlink: `[Author(s) (Year). "Title." *Venue*, Vol(Issue), pp.](DOI/URL)`. Use "et al." for ≥3 authors in-text; list all in bibliography.
+Consistent author-date with hyperlink. No style-switching within a survey.
+
+- **Journal:** `[Author(s) (Year). "Title." *Venue*, Vol(Issue), pp.](DOI/URL)`
+- **Book:** `[Author(s) (Year). *Title*. Publisher.](URL)`
+
+Use "et al." for ≥3 authors in-text; list all authors in bibliography entries.
 
 ### P7 — Negative evidence required
 
@@ -142,7 +155,7 @@ Report only: (1) file confirmation, (2) item count by pillar, (3) cluster count,
 
 ## Style
 
-Concise, professional academic prose. Faithful summaries grounded in verified text.
+Concise, professional academic prose. Faithful, specific summaries grounded in verified text. No hedging about existence ("likely argues…", "may exist…"). Every content claim grounded in verified text. Defer to user's definitions over generic domain knowledge.
 
 **Causal language discipline.** Reserve causal verbs for findings from designs warranting causal inference. Use "is associated with," "predicts," "correlates with" for observational work.
 
@@ -156,4 +169,8 @@ A full run can exceed context limits. Checkpoint intermediate state to `_lit_rev
 
 ## Cross-Project Reuse
 
-Check memory for prior surveys before Step 0. Reuse verified items (tag `[Prior survey: <filename>]`). Re-verify DOI/URLs for carried-over items. Update published WPs.
+Check memory for prior surveys before Step 0. Reuse verified items (tag `[Prior survey: <filename>]`). Re-verify DOI/URLs for carried-over items. Update published WPs. Separate file per project.
+
+## Memory
+
+If persistent memory is available (e.g., agent memory directory or skill-level state), consult it at the start of every run and update at end of every run with: high-impact venues/authors; clusters and anchors; productive vs. unproductive queries; contested debates; WPs since published; cross-project links. Do not rely on the user to prompt a save.

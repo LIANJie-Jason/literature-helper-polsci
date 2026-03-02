@@ -1,6 +1,6 @@
 # Workflow Reference — Literature Helper (Political Science)
 
-Detailed workflow steps, deliverable structure, and operational procedures for the literature-helper-polsci skill.
+Detailed workflow steps, deliverable structure, and operational procedures for the literature-helper-polsci skill. Principles P1–P9 are defined in the main `SKILL.md` file.
 
 ---
 

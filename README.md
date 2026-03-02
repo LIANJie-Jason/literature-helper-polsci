@@ -20,7 +20,7 @@ claude skill add /path/to/literature-helper-polsci
 Or clone and reference directly:
 
 ```bash
-git clone https://github.com/<your-username>/literature-helper-polsci.git
+git clone https://github.com/LIANJie-Jason/literature-helper-polsci.git
 ```
 
 ## Dependencies
