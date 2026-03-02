@@ -39,7 +39,7 @@ Constructs → measures, datasets, coverage limits, validity threats, validation
 
 ### Confirmation Gate (last in Step 0)
 
-Present to the user: (1) restated RQ and project scope, (2) concept dictionary, (3) search plan with all query strings. Ask: "Does this capture your project correctly? Should I adjust any constructs, queries, or scope before searching?" **Wait for confirmation** before proceeding to Step 1.
+Present to the user: (1) restated RQ and project scope, (2) concept dictionary, (3) search plan with all query strings. Ask: "Does this capture your project correctly? Should I adjust any constructs, queries, or scope before searching?" **Wait for confirmation or corrections** before proceeding to Step 1. For incremental updates (Step 6), present only what changed since the prior survey.
 
 ---
 
@@ -57,7 +57,7 @@ Target ≥15 candidates/track (≥45 total, combining Zotero + external).
 
 ### Book Coverage Check
 
-API-based search systematically underrepresents books and edited volumes. For book-heavy subfields (comparative politics, political theory, area studies), supplement with: publisher catalogue searches, handbook reference lists, and Google Scholar book results.
+API-based search (OpenAlex, Crossref, Semantic Scholar) systematically underrepresents books and edited volumes. For book-heavy subfields (comparative politics, political theory, area studies), supplement API results with: publisher catalogue searches, handbook reference lists, and Google Scholar book results. If the topic plausibly has major book-length treatments, actively search for them.
 
 ### If Retrieval Falls Short
 
@@ -71,11 +71,13 @@ Select 6–12 seed anchors from Step 1 (prioritize must-read candidates and foun
 
 **Required tools for citation-network traversal (do not rely on model memory):**
 
-- **Semantic Scholar API (preferred):** `https://api.semanticscholar.org/graph/v1/paper/{DOI}/references` and `.../citations`
-- **OpenAlex API:** `https://api.openalex.org/works?filter=cites:{work_id}` (forward) and `referenced_works` field (backward)
+- **Semantic Scholar API (preferred):** `https://api.semanticscholar.org/graph/v1/paper/{DOI}/references` and `.../citations` — returns structured reference/citation lists with DOIs. Free, no key required for moderate use.
+- **OpenAlex API:** `https://api.openalex.org/works?filter=cites:{work_id}` (forward) and `referenced_works` field (backward) — broad coverage, free.
 - **Crossref API:** `https://api.crossref.org/works/{DOI}` — `reference` field for backward citations.
 
-All new items from expansion must go through Step 5. If an API call fails for a seed, note it in the Audit Log and move to the next seed.
+**Process:** For each seed anchor, retrieve its reference list and citing papers via API. Extract DOIs/titles from API responses. Cross-reference against existing candidate pool. Add new items that appear relevant (title/abstract match to project scope). All new items from expansion must go through Step 5 (Quality Control) — they carry the same verification burden as any non-Zotero item.
+
+**Do not** reconstruct citation networks from memory. If an API call fails for a specific seed, note it in the Audit Log and move to the next seed.
 
 ---
 
@@ -121,7 +123,7 @@ If a prior survey exists for the same project (check memory + ask user): (1) rea
 Verify internal consistency:
 
 - Every must-read item (Section C) appears in the bibliography (Section B).
-- Every cluster in the map (Section A) has ≥2 items in the bibliography. Clusters with only 2 items: flag as **thin** in the Coverage Report.
+- Every cluster in the map (Section A) has ≥2 items in the bibliography. Clusters with only 2 items: flag as **thin** in the Coverage Report — these may represent blind spots or emerging areas.
 - All three pillars are represented in both bibliography and must-read.
 - Every hyperlink is well-formed (starts with `https://`).
 - No entry lacks both a hyperlink and a `[No DOI/URL — verified via...]` tag.
@@ -137,17 +139,17 @@ Fix any failures before finalizing.
 
 ### A) Project-to-Literature Map (~1–2 pp)
 
-Restate project and RQ(s). Identify literature clusters across all three pillars (typically 4–8). Per cluster:
+Restate project and RQ(s). Identify literature clusters across all three pillars (typically 4–8; fewer or more OK with justification). Per cluster:
 
-- Mechanisms addressed; estimand/design problems informed; maturity (nascent / growing / established); canonical datasets.
-- **Narrative synthesis:** Connected prose showing how ideas evolved, where scholars agree/disagree, current frontier. Identify cross-cluster tensions and connections.
+- Mechanisms addressed; estimand/design problems informed; maturity (nascent / growing / established — based on volume, replication, and methodological convergence); canonical datasets.
+- **Narrative synthesis:** Do not just list papers. Write connected prose showing how ideas evolved, where scholars agree/disagree, and what the current frontier looks like. Identify cross-cluster tensions and connections.
 - **Disagreements / Nulls / Critiques** sub-block.
 
-**Cross-cluster synthesis (required, at end of Section A).** 1–2 paragraphs identifying: (a) how clusters connect; (b) tensions between clusters; (c) what the combined landscape implies for the user's project.
+**Cross-cluster synthesis (required, at end of Section A).** After all clusters, write 1–2 paragraphs identifying: (a) how clusters connect or depend on each other; (b) tensions between clusters (e.g., theory in Cluster 1 predicts X, but empirical work in Cluster 3 finds ¬X); (c) what the combined landscape implies for the user's project.
 
 ### A1) Project Positioning
 
-Explicitly state: (a) which gap(s) the project addresses; (b) which lines of work it extends, challenges, or combines; (c) what the project contributes; (d) **scope conditions** — under what contexts the project's claims are expected to hold, and where they may not generalize.
+Explicitly state: (a) which gap(s) in the literature the user's project addresses; (b) which existing lines of work it extends, challenges, or combines; (c) what the project contributes that is not already in the literature; (d) **scope conditions** — under what contexts (geographic, temporal, institutional, methodological) the project's claims are expected to hold, and where they may not generalize, based on the literature reviewed. This section justifies the project's novelty and is the most valuable part of the survey for grant proposals and paper introductions.
 
 ### A2) Concept Dictionary
 
@@ -171,7 +173,7 @@ Per item:
 - WP criteria met (if applicable).
 - 3–6 bullets: RQ/argument; data/design; findings (causal language only if design warrants); project relevance; limitations. Use 3 bullets for peripheral items; 5–6 for anchors and must-reads.
 - **Content claims must be drawn from verified text** (abstract, full text, or trusted secondary source). If only metadata available, state "summary based on [source]" or limit to what is verifiable. Never infer findings from title alone. For abstract-only items, note `[Summary based on abstract]`.
-- **Connection note:** 1 sentence linking this item to ≥1 other item in the bibliography.
+- **Connection note:** 1 sentence linking this item to ≥1 other item in the bibliography (agrees with, extends, contradicts, uses same data as, applies method from). This prevents the bibliography from reading as an isolated list.
 
 Must include `[Null/Negative evidence]`, `[Contradictory evidence]`, `[Replication/Reanalysis]`, `[Measurement critique/validation]` items when such work exists.
 
@@ -204,7 +206,7 @@ Must include `[Null/Negative evidence]`, `[Contradictory evidence]`, `[Replicati
 
 ## Context Budget Management
 
-1. **Checkpoint to file after each major step.** Save intermediate state to `_lit_review_workspace.md`. Checkpoints at: end of Step 2, end of Step 4, end of Step 5. Each checkpoint overwrites the previous.
-2. **Process API responses immediately.** Extract only needed fields (title, authors, year, DOI, venue, abstract snippet) and discard raw JSON.
-3. **If context feels long mid-run,** compact: write current state to checkpoint, summarize progress in 3–5 sentences, proceed from checkpoint.
+1. **Checkpoint to file after each major step.** Save intermediate state to `_lit_review_workspace.md` in the working directory. Checkpoints at: end of Step 2 (candidate list after retrieval + citation expansion), end of Step 4 (screened pool with pillar tags), end of Step 5 (QC-verified items ready for writing). Each checkpoint overwrites the previous — only the latest stage matters.
+2. **Process API responses immediately.** When calling Crossref, OpenAlex, Semantic Scholar, or Zotero APIs, extract only the needed fields (title, authors, year, DOI, venue, abstract snippet) and discard the raw JSON. Never hold full API responses in conversation.
+3. **If context feels long mid-run,** compact before continuing: write current state to the checkpoint file, summarize progress in 3–5 sentences, then proceed from the checkpoint. Do not attempt to hold all candidates in conversation simultaneously.
 4. **The deliverable file is the final checkpoint.** Workspace file can be deleted after Step 6.

@@ -58,9 +58,9 @@ If you "remember" a paper from training data, you **must** verify it via an exte
 
 ### P4 — Every citation hyperlinked
 
-Each citation must carry a clickable DOI (`https://doi.org/...`) or stable URL.
+Each citation must carry a clickable DOI (`https://doi.org/...`) or stable URL (publisher, JSTOR, SSRN, arXiv, OSF).
 
-- **No DOI/URL found →** verify existence via ≥2 independent sources. If confirmed: include with `[No DOI/URL — verified via <source1, source2>]`. If unconfirmed: **drop and log**.
+- **No DOI/URL found →** verify existence via ≥2 independent sources (different databases or platforms — e.g., Crossref + Google Scholar, or publisher site + OpenAlex; two results from the same underlying database do not count). If confirmed: include with `[No DOI/URL — verified via <source1, source2>]`. If unconfirmed: **drop and log** ("suspected hallucination").
 - **Never fabricate links.** Resolve uncertain DOIs; discard if resolution fails or mismatches.
 - **Active DOI verification (required for non-Zotero items).** Do not assume a DOI is valid because it looks well-formed. Verify programmatically:
   1. **Crossref API:** `curl -s "https://api.crossref.org/works/{DOI}"` — confirm HTTP 200 and title match.
@@ -89,7 +89,7 @@ Use "et al." for ≥3 authors in-text; list all authors in bibliography entries.
 
 ### P7 — Negative evidence required
 
-Per cluster, ≥1 when available: null finding, replication/re-analysis, measurement critique.
+Per cluster, ≥1 when available: null finding, replication/re-analysis, measurement critique. If none: state explicitly.
 
 ### P8 — Reviews/handbooks
 
@@ -97,7 +97,7 @@ Per cluster, ≥1 when available: null finding, replication/re-analysis, measure
 
 ### P9 — Foundational + frontier coverage
 
-Every cluster must include both: (a) **foundational work** — the canonical statement; and (b) **frontier work** — most recent high-quality contribution (last 3–5 years). Label foundational works as `[Foundational]`.
+Every cluster must include both: (a) **foundational work** — the canonical statement that defined the concept, theory, or method (even if old); and (b) **frontier work** — the most recent high-quality contribution (last 3–5 years). When choosing among works of comparable quality, prefer the more recent. Label foundational works as `[Foundational]` in the bibliography.
 
 ## Source Rules
 
@@ -107,7 +107,7 @@ Every cluster must include both: (a) **foundational work** — the canonical sta
 
 ### Working Paper Test
 
-Include only if **≥2** of: (a) high citations/downloads for age; (b) established author; (c) top venue presentation; (d) sole source for needed dataset/method; (e) verifiable forthcoming/accepted. State which criteria met. Label as "Working paper / preprint."
+Include only if **≥2** of: (a) high citations/downloads for age; (b) established author; (c) top venue presentation (note venue/year); (d) sole source for needed dataset/method; (e) verifiable forthcoming/accepted. **For each included WP, state which ≥2 criteria it meets.** Label as "Working paper / preprint." Prefer published version. No Confidence C WPs in must-read without explicit justification.
 
 ## Quick Workflow Reference
 
@@ -134,7 +134,7 @@ The full 7-step workflow with substeps is in `references/workflow-reference.md`.
 
 Try Mode 1 first. Fall back to Mode 2 only if Zotero MCP is unreachable. Log mode in Audit Log.
 
-**Zotero-first rule:** Always search the user's Zotero library **first** using the `zotero-mcp-code` skill. Zotero results form the baseline; external sources then fill gaps.
+**Zotero-first rule:** Always search the user's Zotero library **first** before any external API or web search. Use the `zotero-mcp-code` skill (comprehensive search via `SearchOrchestrator`) for efficient, multi-strategy Zotero retrieval. Zotero results form the **baseline**; external sources then fill gaps. This ensures the user's existing collection is leveraged and not duplicated.
 
 ## Deliverable Structure (Summary)
 
@@ -155,9 +155,9 @@ Report only: (1) file confirmation, (2) item count by pillar, (3) cluster count,
 
 ## Style
 
-Concise, professional academic prose. Faithful, specific summaries grounded in verified text. No hedging about existence ("likely argues…", "may exist…"). Every content claim grounded in verified text. Defer to user's definitions over generic domain knowledge.
+Concise, professional academic prose. Faithful, specific summaries. No hedging about existence ("likely argues…", "may exist…"). Every content claim grounded in verified text. Defer to user's definitions over generic domain knowledge.
 
-**Causal language discipline.** Reserve causal verbs for findings from designs warranting causal inference. Use "is associated with," "predicts," "correlates with" for observational work.
+**Causal language discipline.** Reserve causal verbs ("causes," "increases," "reduces") for findings from designs that warrant causal inference (experiments, RCTs, credible quasi-experiments). For observational/correlational work, use: "is associated with," "predicts," "correlates with." When summarizing a paper, match the strength of language to the design, not to the authors' own claims.
 
 **Disagreement language.** State disagreements precisely: who claims what, on what evidence. Do not flatten into "the literature is mixed."
 
