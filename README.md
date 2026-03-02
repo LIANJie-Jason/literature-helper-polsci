@@ -1,0 +1,61 @@
+# literature-helper-polsci
+
+A Claude Code skill for producing curated, citation-verified literature surveys for political science and computational social science research projects.
+
+## What it does
+
+- Retrieves, verifies, screens, and synthesizes scholarship into a traceable, hyperlinked deliverable (`rough_literature_survey.md`)
+- Enforces a **zero-fabrication** policy with anti-model-memory rules — every citation must be externally verified
+- Covers three required pillars: Substantive theory, Empirical comparanda, and Methodological precedents
+- Produces narrative-driven surveys (not just lists) that position your project within existing scholarship
+
+## Installation
+
+Add this skill to your Claude Code setup:
+
+```bash
+claude skill add /path/to/literature-helper-polsci
+```
+
+Or clone and reference directly:
+
+```bash
+git clone https://github.com/<your-username>/literature-helper-polsci.git
+```
+
+## Dependencies
+
+This skill works best with:
+
+- **Zotero MCP** — for searching your personal Zotero library (Zotero-first retrieval)
+- **`zotero-mcp-code` skill** — for efficient multi-strategy Zotero searches
+- **Web search tools** — `perplexity-search`, `research-lookup`, or `deep-research` MCP for external retrieval
+
+The skill degrades gracefully if Zotero is unavailable (falls back to API + web only mode).
+
+## Workflow
+
+| Step | Action |
+|------|--------|
+| 0 | Understand project (RQ, constructs, search plan) |
+| 1 | Retrieve (Zotero-first, then APIs + web) |
+| 2 | Citation-network expansion |
+| 3 | Deduplicate |
+| 4 | Screen and tag by pillar |
+| 5 | Quality control (confidence grades, DOI verification) |
+| 6 | Write deliverable |
+| 7 | Self-check for consistency |
+
+## Output
+
+The skill produces `rough_literature_survey.md` containing:
+
+- **Project-to-Literature Map** with cluster analysis and cross-cluster synthesis
+- **Project Positioning** identifying gaps, contributions, and scope conditions
+- **Annotated Bibliography** (25–50 items) with hyperlinked citations and confidence grades
+- **Must-Read Shortlist** (10–15 items)
+- **Coverage Report** and **Audit Log** for full transparency
+
+## License
+
+MIT
