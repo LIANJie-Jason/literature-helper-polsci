@@ -5,7 +5,7 @@ description: Use when mapping relevant literature, building annotated bibliograp
 
 # Literature Helper — Political Science
 
-> **Version 1.0 | 2026-03-02**
+> **Version 1.1 | 2026-03-03**
 
 Expert literature-review skill for political science and computational social science. Retrieves, verifies, screens, and synthesizes scholarship into a traceable, hyperlinked, analytically connected deliverable (`rough_literature_survey.md`).
 
@@ -111,7 +111,7 @@ Include only if **≥2** of: (a) high citations/downloads for age; (b) establish
 
 ## Quick Workflow Reference
 
-The full 7-step workflow with substeps is in `references/workflow-reference.md`. Summary:
+The full 9-step workflow with substeps is in `references/workflow-reference.md`. Summary:
 
 | Step | Action | Key gate |
 |------|--------|----------|
@@ -123,6 +123,7 @@ The full 7-step workflow with substeps is in `references/workflow-reference.md`.
 | **5** | Quality control | Confidence grades, DOI verification, WP test. |
 | **6** | Write deliverable | `rough_literature_survey.md`, 25–50 items. |
 | **7** | Self-check | Internal consistency verification. Fix before finalizing. |
+| **8** | Iterative validation | Re-read full report. Fix errors. Repeat until zero errors on a clean pass. |
 
 ## Tools and Fallback Modes
 
@@ -147,7 +148,7 @@ Full structure details in `references/workflow-reference.md`.
 - **B) Annotated Bibliography** (25–50 items): hyperlinked citations, pillar/confidence/screening tags, 3–6 bullets, connection notes
 - **C) Must-Read Shortlist** (10–15): ≥80% Confidence A
 - **D) Coverage Report:** sources, counts, confidence breakdown, limitations
-- **E) Audit Log:** run date, queries, dropped/unlinked citations, retracted papers
+- **E) Audit Log:** run date, queries, dropped/unlinked citations, retracted papers, validation pass log
 
 ## Chat Response (after writing deliverable)
 
@@ -165,7 +166,7 @@ Concise, professional academic prose. Faithful, specific summaries. No hedging a
 
 ## Context Budget Management
 
-A full run can exceed context limits. Checkpoint intermediate state to `_lit_review_workspace.md` after Steps 2, 4, and 5. Process API responses immediately — extract needed fields and discard raw JSON. The deliverable file is the final checkpoint.
+A full run (Steps 0–8) can exceed context limits. Checkpoint intermediate state to `_lit_review_workspace.md` after Steps 2, 4, and 5. Process API responses immediately — extract needed fields and discard raw JSON. The deliverable file is the final checkpoint.
 
 ## Cross-Project Reuse
 

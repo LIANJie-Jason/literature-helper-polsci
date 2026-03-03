@@ -131,7 +131,77 @@ Verify internal consistency:
 - Project Positioning (A1) references specific bibliography items.
 - Each identified theoretical framework has its canonical statement in the bibliography.
 
-Fix any failures before finalizing.
+Fix any failures before proceeding to Step 8.
+
+---
+
+## Step 8 — Iterative Validation Loop (required before reporting to user)
+
+After Step 7 fixes are applied, re-read the **entire** `rough_literature_survey.md` from top to bottom and evaluate against every checklist dimension below. This is not a spot-check — read every section, every entry, every link.
+
+### 8.1 Validation Checklist
+
+**A. Citation accuracy**
+- Every DOI resolves to the correct paper (re-verify any you are uncertain about via Crossref/DOI resolution).
+- Author names, years, and venue names match the DOI/URL target.
+- No citation appears twice with different metadata (dedup failure).
+- No citation uses a DOI belonging to a different paper (DOI mismatch).
+
+**B. Content accuracy**
+- Each bibliography entry's summary faithfully represents the paper's actual argument and findings — not an inference from the title.
+- Causal language matches study design (P6 causal discipline): no "causes" for observational work, no "correlates with" for RCTs.
+- Null/negative findings are reported accurately — not softened or reversed.
+- `[Summary based on abstract]` label present for every abstract-only item.
+
+**C. Structural completeness**
+- All Step 7 checks still pass after any edits made during this step.
+- Every bibliography item has: hyperlinked citation, type, pillar tag(s), confidence grade, 3–6 bullets, connection note.
+- Every must-read item has: 1-line justification, pillar, confidence, hyperlinked DOI/URL.
+- Coverage Report counts are internally consistent (retrieved ≥ deduped ≥ screened ≥ final).
+- Audit Log lists all dropped citations with reasons.
+
+**D. Cross-reference integrity**
+- Every item referenced in Section A (map) or A1 (positioning) exists in Section B (bibliography).
+- Every must-read (Section C) exists in Section B.
+- Connection notes reference items that actually exist in the bibliography — no dangling references.
+- Cluster names are consistent between Section A and Section D.
+
+**E. Formatting and style**
+- Citation format consistent throughout (no style-switching between P6 journal and book formats).
+- All hyperlinks start with `https://` and are well-formed markdown links.
+- No broken markdown (unclosed bold, unclosed links, malformed tables).
+- "et al." used consistently for ≥3 authors in-text; full author list in bibliography.
+
+### 8.2 The Loop
+
+```
+Pass N:
+  1. Read the entire deliverable file.
+  2. Check every item in the checklist above (A through E).
+  3. Log all errors found (section, item, error type, description).
+  4. If errors found:
+     a. Fix each error directly in the file.
+     b. Log fixes in the Audit Log under "Validation pass N: [count] errors fixed."
+     c. Return to step 1 (start Pass N+1).
+  5. If zero errors found:
+     a. Log "Validation pass N: clean — 0 errors" in the Audit Log.
+     b. Exit loop. Deliverable is finalized.
+```
+
+**Hard rule:** Do not skip the re-read after fixes. Every fix can introduce new errors (e.g., fixing a DOI may change a title, which may break a connection note). Always re-evaluate the full report after any change.
+
+**Maximum passes:** If 3 consecutive passes find errors, pause and report to the user: list remaining issues, ask whether to continue fixing or deliver as-is with the error log. This prevents infinite loops on ambiguous or unfixable issues.
+
+### 8.3 Audit Log Entry
+
+Each validation pass adds to Section E:
+
+```
+## Validation Log
+- Pass 1: [N] errors found, [N] fixed. Types: [DOI mismatch (2), causal language (1), ...]
+- Pass 2: [N] errors found, [N] fixed. Types: [...]
+- Pass 3: Clean — 0 errors. Deliverable finalized.
+```
 
 ---
 
@@ -201,6 +271,7 @@ Must include `[Null/Negative evidence]`, `[Contradictory evidence]`, `[Replicati
 - **Unlinked citations:** title, verification sources.
 - **Retracted papers** encountered.
 - Stopping rationale.
+- **Validation log:** pass count, errors found/fixed per pass, error types, final clean-pass confirmation (from Step 8).
 
 ---
 
