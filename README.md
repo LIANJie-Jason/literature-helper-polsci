@@ -14,7 +14,11 @@ A Claude Code skill for producing curated, citation-verified literature surveys 
 Install as a Claude Code plugin from GitHub:
 
 ```bash
-claude plugins add LIANJie-Jason/literature-helper-polsci
+# Step 1: Add the plugin from GitHub
+claude plugin marketplace add LIANJie-Jason/literature-helper-polsci
+
+# Step 2: Install it
+claude plugin install literature-helper-polsci
 ```
 
 ## Structure
@@ -28,7 +32,7 @@ literature-helper-polsci/
 │   └── literature-helper-polsci/
 │       ├── SKILL.md            # Main skill (principles, workflow summary)
 │       └── references/
-│           └── workflow-reference.md  # Detailed 7-step workflow
+│           └── workflow-reference.md  # Detailed 9-step workflow
 ├── README.md
 └── LICENSE
 ```
@@ -55,6 +59,7 @@ The skill degrades gracefully if Zotero is unavailable (falls back to API + web 
 | 5 | Quality control (confidence grades, DOI verification) |
 | 6 | Write deliverable |
 | 7 | Self-check for consistency |
+| 8 | Iterative validation loop |
 
 ## Output
 
