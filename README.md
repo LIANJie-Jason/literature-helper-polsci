@@ -71,6 +71,11 @@ The skill produces `rough_literature_survey.md` containing:
 - **Must-Read Shortlist** (10–15 items)
 - **Coverage Report** and **Audit Log** for full transparency
 
+## Caveats
+
+- **You should always read the papers themselves,** and this tool is merely a starting point.
+- Despite all the guardrails, I suggest you debug the final reports one to two times manually on both the accurate **citations** and the correct **summarization**. 
+
 ## License
 
 MIT
